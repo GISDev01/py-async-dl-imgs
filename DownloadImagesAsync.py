@@ -1,10 +1,11 @@
 # Purpose: Script to download multiple images async
 # Tested with Python 3.5 (Anaconda distro) and AsyncIO 3.4.3
 
+import asyncio
 import os
 import time
 import urllib
-import asyncio
+
 import aiohttp
 import tqdm
 
@@ -45,6 +46,14 @@ def download_image(image_url):
     image_filename = dummy_filename
     filename = '{}.jpg'.format(image_filename)
     write_image_to_file_binary(filename, response_content)
+
+
+def download_images_no_async(list_of_image_urls_to_download):
+    for url in list_of_image_urls_to_download:
+        dummy_filename = str(time.time().replace('.', '_'))
+        filename_nonasync = '{}.jpg'.format(dummy_filename)
+        # puts the images in the same dir as the script
+        urllib.urlretrieve(url, filename_nonasync)
 
 
 def write_image_to_file_binary(filename, raw_content):
